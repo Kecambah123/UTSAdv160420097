@@ -73,9 +73,6 @@ class CommentFragment : Fragment() {
                             val obj = JSONObject(it)
                             if(obj.getString("result") == "OK") {
                                 Toast.makeText(getActivity(), "Comment added succesfully!", Toast.LENGTH_SHORT).show()
-
-                                val action = RegisterFragmentDirections.actionLoginFragment()
-                                Navigation.findNavController(view).navigate(action)
                             }
                             else{
                                 Toast.makeText(getActivity(),"Failed to add comment!",Toast.LENGTH_SHORT).show()
@@ -101,7 +98,8 @@ class CommentFragment : Fragment() {
     fun observeDetailModel(){
         val txtCommentCount: TextView = requireView().findViewById(R.id.txtCommentCount)
         detailModel.commentNum.observe(viewLifecycleOwner, Observer {
-            txtCommentCount.setText(it.comment_num)
+            val commentNum = it.comment_num
+            txtCommentCount.setText("($commentNum)")
         })
         detailModel.comment.observe(viewLifecycleOwner, Observer{
             commentAdapter.updateCommentList(it)

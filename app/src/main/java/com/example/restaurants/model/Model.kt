@@ -8,7 +8,18 @@ data class Restaurant(
     val resto_img:String,
     val background_img:String,
     val totalrating:String?,
-    val countrating:String?
+    val countrating:String
+)
+
+data class Favorite(
+    val id:String?,
+    val resto_name: String?,
+    val address:String?,
+    val phone_num:String?,
+    val resto_img:String,
+    val background_img:String,
+    val totalrating:String?,
+    val countrating:String
 )
 
 data class Food(

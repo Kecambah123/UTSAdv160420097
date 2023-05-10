@@ -98,7 +98,7 @@ class RestoDetailFragment : Fragment() {
                             Log.d("volley_result",it)
                             val obj = JSONObject(it)
                             if(obj.getString("result") == "OK") {
-                                Toast.makeText(getActivity(), "Succesfully added to Favorite!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(getActivity(), "Successfully added to Favorite!", Toast.LENGTH_SHORT).show()
                             }
                             else{
                                 Toast.makeText(getActivity(),"Restaurant already added to Favorite!",Toast.LENGTH_SHORT).show()

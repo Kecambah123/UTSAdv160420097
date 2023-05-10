@@ -39,12 +39,20 @@
         android:id="@+id/itemFavorite"
         android:name="com.example.restaurants.view.FavoriteFragment"
         android:label="My Favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/actionFavoriteDetail"
+            app:destination="@id/restoDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/itemProfile"
         android:name="com.example.restaurants.view.ProfileFragment"
         android:label="My Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/actionProfileLogin"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/restoDetailFragment"
         android:name="com.example.restaurants.view.RestoDetailFragment"

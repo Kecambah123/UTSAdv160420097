@@ -8,6 +8,7 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.restaurants.model.Favorite
 import com.example.restaurants.model.Restaurant
 import com.example.restaurants.view.Global
 import com.google.gson.Gson
@@ -16,7 +17,7 @@ import org.json.JSONObject
 
 class ListViewModel(application: Application): AndroidViewModel(application) {
     val restaurants = MutableLiveData<ArrayList<Restaurant>>()
-    val favorites = MutableLiveData<ArrayList<Restaurant>>()
+    val favorites = MutableLiveData<ArrayList<Favorite>>()
 
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
@@ -50,8 +51,8 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
         val stringRequest = StringRequest(
             Request.Method.GET, url,
             {
-                val sType = object : TypeToken<ArrayList<Restaurant>>() { }.type
-                val result = Gson().fromJson<ArrayList<Restaurant>>(it, sType)
+                val sType = object : TypeToken<ArrayList<Favorite>>() { }.type
+                val result = Gson().fromJson<ArrayList<Favorite>>(it, sType)
                 favorites.value = result
 
                 Log.d("showvoley", result.toString())

@@ -19,24 +19,30 @@ import com.example.restaurants.viewmodel.ListViewModel
  */
 class FavoriteFragment : Fragment() {
     private lateinit var viewModel: ListViewModel
-    private val restaurantAdapter = RestaurantAdapter(arrayListOf())
+    private val favoriteAdapter = FavoriteAdapter(arrayListOf())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
-        viewModel.favorite()
-
         val favView = view.findViewById<RecyclerView>(R.id.favView)
-        favView.layoutManager = LinearLayoutManager(context)
-        favView.adapter = restaurantAdapter
 
-        observeViewModel()
+        if(Global.user_id == 0){
+            favView.visibility = View.GONE
+        }
+        else{
+            viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
+            favView.visibility = View.VISIBLE
+            viewModel.favorite()
+            favView.layoutManager = LinearLayoutManager(context)
+            favView.adapter = favoriteAdapter
+
+            observeViewModel()
+        }
     }
 
     fun observeViewModel(){
         viewModel.favorites.observe(viewLifecycleOwner, Observer{
-            restaurantAdapter.updateRestoList(it)
+            favoriteAdapter.updateFavoriteList(it)
         })
     }
 

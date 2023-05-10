@@ -26,8 +26,8 @@ class CommentAdapter(val comment:ArrayList<Comment>): RecyclerView.Adapter<Comme
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         val txtUser = holder.view.findViewById<TextView>(R.id.txtUser)
         val txtUserComment = holder.view.findViewById<TextView>(R.id.txtUserComment)
-        val txtCommentCount = holder.view.findViewById<TextView>(R.id.txtCommentCount)
-        txtUser.text = comment[position].name
+        val user = comment[position].name
+        txtUser.text = "$user :"
         txtUserComment.text = comment[position].comment
     }
 
