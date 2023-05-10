@@ -124,6 +124,16 @@
                             android:src="@drawable/baseline_favorite_24"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/btnComments" />
+
+                        <ImageButton
+                            android:id="@+id/btnRemove"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:backgroundTint="#FFFFFF"
+                            android:src="@drawable/baseline_favorite_border_24"
+                            app:layout_constraintStart_toEndOf="@+id/btnFavorite"
+                            app:layout_constraintTop_toTopOf="@+id/btnFavorite" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>

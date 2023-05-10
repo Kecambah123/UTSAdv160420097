@@ -9,11 +9,13 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -49,7 +51,7 @@ class RestoFragment : Fragment() {
 
     fun observeViewModel(){
         viewModel.restaurants.observe(viewLifecycleOwner, Observer{
-            restaurantAdapter.updateStudentList(it)
+            restaurantAdapter.updateRestoList(it)
         })
     }
 

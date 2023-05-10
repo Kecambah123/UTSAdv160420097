@@ -46,7 +46,7 @@ class RestaurantAdapter(val restaurants:ArrayList<Restaurant>): RecyclerView.Ada
         return restaurants.size
     }
 
-    fun updateStudentList(newRestoList: ArrayList<Restaurant>){
+    fun updateRestoList(newRestoList: ArrayList<Restaurant>){
         restaurants.clear()
         restaurants.addAll(newRestoList)
         notifyDataSetChanged()

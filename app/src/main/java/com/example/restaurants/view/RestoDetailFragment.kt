@@ -9,12 +9,18 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.restaurants.R
 import com.example.restaurants.util.loadImage
 import com.example.restaurants.viewmodel.DetailViewModel
 import com.google.android.material.textfield.TextInputEditText
+import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
 /**
@@ -58,6 +64,7 @@ class RestoDetailFragment : Fragment() {
         val backgroundView: ImageView = requireView().findViewById(R.id.backgroundView)
         val btnComments: ImageButton = requireView().findViewById(R.id.btnComments)
         val btnFavorite: ImageButton = requireView().findViewById(R.id.btnFavorite)
+        val btnRemove: ImageButton = requireView().findViewById(R.id.btnRemove)
         val btnRating: ImageButton = requireView().findViewById(R.id.btnRating)
         val progresBar: ProgressBar = requireView().findViewById(R.id.progressBar2)
 
@@ -72,10 +79,76 @@ class RestoDetailFragment : Fragment() {
             backgroundView.loadImage(it.background_img, progresBar)
 
             btnComments.setOnClickListener {
-
+                val resto_id = RestoDetailFragmentArgs.fromBundle(requireArguments()).id
+                val action = RestoDetailFragmentDirections.actionCommentFragment(resto_id.toString())
+                Navigation.findNavController(it).navigate(action)
             }
             btnFavorite.setOnClickListener{
+                if(Global.user_id == 0){
+                    Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    val user_id = Global.user_id.toString()
+                    val resto_id = RestoDetailFragmentArgs.fromBundle(requireArguments()).id
 
+                    val queue = Volley.newRequestQueue(activity)
+                    val url = "https://wheli.site/adv/insertfavorite.php"
+                    val stringRequest = object : StringRequest(Request.Method.POST,url,
+                        Response.Listener<String> {
+                            Log.d("volley_result",it)
+                            val obj = JSONObject(it)
+                            if(obj.getString("result") == "OK") {
+                                Toast.makeText(getActivity(), "Succesfully added to Favorite!", Toast.LENGTH_SHORT).show()
+                            }
+                            else{
+                                Toast.makeText(getActivity(),"Restaurant already added to Favorite!",Toast.LENGTH_SHORT).show()
+                            }
+                        }, Response.ErrorListener{
+                            Log.d("volley_error",it.message.toString())
+                        }
+                    ){
+                        override fun getParams(): MutableMap<String,String>{
+                            val params = HashMap<String,String>()
+                            params["user_id"] = user_id
+                            params["resto_id"] = resto_id
+                            return params
+                        }
+                    }
+                    queue.add(stringRequest)
+                }
+            }
+            btnRemove.setOnClickListener{
+                if(Global.user_id == 0){
+                    Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    val user_id = Global.user_id.toString()
+                    val resto_id = RestoDetailFragmentArgs.fromBundle(requireArguments()).id
+
+                    val queue = Volley.newRequestQueue(activity)
+                    val url = "https://wheli.site/adv/removefavorite.php"
+                    val stringRequest = object : StringRequest(Request.Method.POST, url,
+                        Response.Listener<String> {
+                            Log.d("volley_result", it)
+                            val obj = JSONObject(it)
+                            if (obj.getString("result") == "OK") {
+                                Toast.makeText(getActivity(), "Successfully remove from Favorite!", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(getActivity(), "Restaurant is not in Favorite!", Toast.LENGTH_SHORT).show()
+                            }
+                        }, Response.ErrorListener {
+                            Log.d("volley_error", it.message.toString())
+                        }
+                    ) {
+                        override fun getParams(): MutableMap<String, String> {
+                            val params = HashMap<String, String>()
+                            params["user_id"] = user_id
+                            params["resto_id"] = resto_id
+                            return params
+                        }
+                    }
+                    queue.add(stringRequest)
+                }
             }
             btnRating.setOnClickListener{
 

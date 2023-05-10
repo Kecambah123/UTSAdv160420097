@@ -27,3 +27,12 @@ data class Drink(
     val drink_img:String,
     val restaurant_id:String,
 )
+
+data class Comment(
+    val name:String?,
+    val comment:String?,
+)
+
+data class CommentNum(
+    val comment_num:String,
+)

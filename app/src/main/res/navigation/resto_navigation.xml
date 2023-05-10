@@ -53,5 +53,17 @@
         <argument
             android:name="id"
             app:argType="string" />
+        <action
+            android:id="@+id/actionCommentFragment"
+            app:destination="@id/commentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/commentFragment"
+        android:name="com.example.restaurants.view.CommentFragment"
+        android:label="Comments"
+        tools:layout="@layout/fragment_comment">
+        <argument
+            android:name="resto_id"
+            app:argType="string" />
     </fragment>
 </navigation>

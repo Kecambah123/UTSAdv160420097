@@ -5,7 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.restaurants.R
+import com.example.restaurants.viewmodel.ListViewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -13,6 +18,27 @@ import com.example.restaurants.R
  * create an instance of this fragment.
  */
 class FavoriteFragment : Fragment() {
+    private lateinit var viewModel: ListViewModel
+    private val restaurantAdapter = RestaurantAdapter(arrayListOf())
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
+        viewModel.favorite()
+
+        val favView = view.findViewById<RecyclerView>(R.id.favView)
+        favView.layoutManager = LinearLayoutManager(context)
+        favView.adapter = restaurantAdapter
+
+        observeViewModel()
+    }
+
+    fun observeViewModel(){
+        viewModel.favorites.observe(viewLifecycleOwner, Observer{
+            restaurantAdapter.updateRestoList(it)
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
