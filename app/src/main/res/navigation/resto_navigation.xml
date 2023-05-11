@@ -34,6 +34,9 @@
         <action
             android:id="@+id/actionRestoDetail"
             app:destination="@id/restoDetailFragment" />
+        <action
+            android:id="@+id/actionRestoRating"
+            app:destination="@id/ratingFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemFavorite"
@@ -64,6 +67,9 @@
         <action
             android:id="@+id/actionCommentFragment"
             app:destination="@id/commentFragment" />
+        <action
+            android:id="@+id/actionRatingFragment"
+            app:destination="@id/ratingFragment" />
     </fragment>
     <fragment
         android:id="@+id/commentFragment"
@@ -72,6 +78,18 @@
         tools:layout="@layout/fragment_comment">
         <argument
             android:name="resto_id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/ratingFragment"
+        android:name="com.example.restaurants.view.RatingFragment"
+        android:label="Rate This Restaurant"
+        tools:layout="@layout/fragment_rating" >
+        <argument
+            android:name="resto_id"
+            app:argType="string" />
+        <argument
+            android:name="resto_name"
             app:argType="string" />
     </fragment>
 </navigation>

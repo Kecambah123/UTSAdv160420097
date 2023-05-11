@@ -151,7 +151,15 @@ class RestoDetailFragment : Fragment() {
                 }
             }
             btnRating.setOnClickListener{
-
+                if(Global.user_id == 0){
+                    Toast.makeText(getActivity(), "Please login first!", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    val resto_id = RestoDetailFragmentArgs.fromBundle(requireArguments()).id
+                    val resto_name = txtResto.text.toString()
+                    val action = RestoDetailFragmentDirections.actionRatingFragment(resto_id,resto_name)
+                    Navigation.findNavController(it).navigate(action)
+                }
             }
         })
         detailModel.foods.observe(viewLifecycleOwner, Observer{

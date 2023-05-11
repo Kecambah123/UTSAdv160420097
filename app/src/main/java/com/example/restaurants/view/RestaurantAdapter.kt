@@ -3,10 +3,7 @@ package com.example.restaurants.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restaurants.R
@@ -35,6 +32,17 @@ class RestaurantAdapter(val restaurants:ArrayList<Restaurant>): RecyclerView.Ada
         btnDetail.setOnClickListener{
             val action = RestoFragmentDirections.actionRestoDetail(restaurants[position].id.toString())
             Navigation.findNavController(it).navigate(action)
+        }
+        val btnRate = holder.view.findViewById<ImageButton>(R.id.btnRate)
+        btnRate.setOnClickListener{
+            if(Global.user_id == 0){
+                //Do nothing
+            }else{
+                val resto_id = restaurants[position].id
+                val resto_name = restaurants[position].resto_name
+                val action = RestoFragmentDirections.actionRestoRating(resto_id.toString(),resto_name.toString())
+                Navigation.findNavController(it).navigate(action)
+            }
         }
 
         var imageView = holder.view.findViewById<ImageView>(R.id.imageView)
