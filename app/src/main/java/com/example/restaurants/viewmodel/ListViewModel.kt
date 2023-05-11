@@ -21,7 +21,6 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
 
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
-    val user_id = Global.user_id
 
     fun refresh() {
 
@@ -45,6 +44,7 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun favorite(){
+        val user_id = Global.user_id
         queue = Volley.newRequestQueue(getApplication())
         val url = "https://wheli.site/adv/myfavorite.php?user_id=$user_id"
 

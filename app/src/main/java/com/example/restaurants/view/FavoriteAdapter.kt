@@ -3,15 +3,11 @@ package com.example.restaurants.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restaurants.R
 import com.example.restaurants.model.Favorite
-import com.example.restaurants.model.Restaurant
 import com.example.restaurants.util.loadImage
 
 class FavoriteAdapter(val favorites:ArrayList<Favorite>): RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
@@ -36,6 +32,18 @@ class FavoriteAdapter(val favorites:ArrayList<Favorite>): RecyclerView.Adapter<F
         btnDetail.setOnClickListener{
             val action = FavoriteFragmentDirections.actionFavoriteDetail(favorites[position].id.toString())
             Navigation.findNavController(it).navigate(action)
+        }
+
+        val btnRate = holder.view.findViewById<ImageButton>(R.id.btnRate)
+        btnRate.setOnClickListener{
+            if(Global.user_id == 0){
+                //Do nothing
+            }else{
+                val resto_id = favorites[position].id
+                val resto_name = favorites[position].resto_name
+                val action = FavoriteFragmentDirections.actionFavoriteRating(resto_id.toString(),resto_name.toString())
+                Navigation.findNavController(it).navigate(action)
+            }
         }
 
         var imageView = holder.view.findViewById<ImageView>(R.id.imageView)

@@ -46,6 +46,9 @@
         <action
             android:id="@+id/actionFavoriteDetail"
             app:destination="@id/restoDetailFragment" />
+        <action
+            android:id="@+id/actionFavoriteRating"
+            app:destination="@id/ratingFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemProfile"
