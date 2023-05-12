@@ -6,6 +6,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.android.volley.Request
 import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.restaurants.model.Favorite
@@ -13,7 +16,7 @@ import com.example.restaurants.model.Restaurant
 import com.example.restaurants.view.Global
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.json.JSONObject
+import org.json.JSONArray
 
 class ListViewModel(application: Application): AndroidViewModel(application) {
     val restaurants = MutableLiveData<ArrayList<Restaurant>>()
@@ -22,22 +25,38 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
 
-    fun refresh() {
-
+    fun refresh(){
         queue = Volley.newRequestQueue(getApplication())
-        val url = "https://wheli.site/adv/restaurant.php"
+        val url = "https://wheli.site/adv/restaurant.json"
 
-        val stringRequest = StringRequest(
-            Request.Method.GET, url,
-            {
-                val sType = object : TypeToken<ArrayList<Restaurant>>() { }.type
-                val result = Gson().fromJson<ArrayList<Restaurant>>(it, sType)
-                restaurants.value = result
+        val stringRequest = JsonObjectRequest(
+            Request.Method.GET, url, null, Response.Listener
+            {response ->
+                val jsonArray = response.getJSONArray("Restaurant")
+                val restoList = ArrayList<Restaurant>()
 
-                Log.d("showvoley", result.toString())
+                for (i in 0 until jsonArray.length()) {
+                    val restoObject = jsonArray.getJSONObject(i)
+
+                    val resto =
+                        Restaurant(
+                            restoObject.getString("id"),
+                            restoObject.getString("resto_name"),
+                            restoObject.getString("address"),
+                            restoObject.getString("phone_num"),
+                            restoObject.getString("resto_img"),
+                            restoObject.getString("background_img"),
+                            restoObject.getString("totalrating"),
+                            restoObject.getString("countrating")
+                        )
+                    restoList.add(resto)
+                }
+                restaurants.value = restoList
+
+                Log.d("showvoley", restoList.toString())
             },
-            {
-                Log.d("showvoley", it.toString())
+            Response.ErrorListener{error->
+                Log.d("showvoley", "Error fetching restaurant data: $error")
             })
         stringRequest.tag = TAG
         queue?.add(stringRequest)
